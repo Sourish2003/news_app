@@ -43,6 +43,8 @@ dependencies:
   sqflite:
   connectivity_plus:
   fluttertoast:
+  provider:
+  overlay_support:
 
 dev_dependencies:
   flutter_test:
