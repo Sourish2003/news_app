@@ -38,13 +38,16 @@ dependencies:
   logger:
   flutter_easyloading:
   http:
-  flutter_alice:
+#  flutter_alice:
   shared_preferences:
   sqflite:
   connectivity_plus:
   fluttertoast:
   provider:
   overlay_support:
+  share_plus:
+  url_launcher:
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:
