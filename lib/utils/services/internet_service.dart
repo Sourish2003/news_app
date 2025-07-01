@@ -6,7 +6,7 @@ import '../../config/routes/routes.dart';
 class CheckInternetConnection {
   checkInternetConnection(BuildContext context) async {
     var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
+    if (connectivityResult.contains(ConnectivityResult.none) || connectivityResult.isEmpty) {
       if (context.mounted) {
         return showCupertinoDialog(
           context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../../../utils/api_helpers/api_status.dart';
 import '../model/news_list_model.dart';
 import '../repository/news_list_repository.dart';
@@ -15,9 +16,13 @@ class NewsListViewModel extends ChangeNotifier {
 
   // Getters
   bool get isLoading => _isLoading;
+
   List<Article> get articles => _articles;
+
   String get errorMessage => _errorMessage;
+
   String get selectedCategory => _selectedCategory;
+
   String get searchQuery => _searchQuery;
 
   // Initialize with default news
@@ -107,11 +112,14 @@ class NewsListViewModel extends ChangeNotifier {
     const int imageReadingTimeSeconds = 12;
 
     // Count words in title, description, and content
-    String fullText = '${article.title} ${article.description} ${article.content}';
-    int wordCount = fullText.split(RegExp(r'\s+')).where((word) => word.isNotEmpty).length;
+    String fullText =
+        '${article.title} ${article.description} ${article.content}';
+    int wordCount =
+        fullText.split(RegExp(r'\s+')).where((word) => word.isNotEmpty).length;
 
     // Check for [+nnnn chars] pattern and add extra time
-    RegExp extraContentPattern = RegExp(r'\[\+(\d+)\s*chars?\]', caseSensitive: false);
+    RegExp extraContentPattern =
+        RegExp(r'\[\+(\d+)\s*chars?\]', caseSensitive: false);
     Match? match = extraContentPattern.firstMatch(article.content);
     if (match != null) {
       int extraChars = int.tryParse(match.group(1) ?? '0') ?? 0;

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../news_list/model/news_list_model.dart';
 
 class NewsDetailViewModel extends ChangeNotifier {
@@ -8,6 +9,7 @@ class NewsDetailViewModel extends ChangeNotifier {
   String _searchQuery = '';
 
   Article? get article => _article;
+
   String get searchQuery => _searchQuery;
 
   void setArticle(Article article, String searchQuery) {
@@ -20,7 +22,7 @@ class NewsDetailViewModel extends ChangeNotifier {
   Future<void> shareArticle() async {
     if (_article != null) {
       final text = '${_article!.title}\n\nRead more: ${_article!.url}';
-      await Share.share(text);
+      await SharePlus.instance.share(ShareParams(text: text));
     }
   }
 
@@ -60,8 +62,20 @@ class NewsDetailViewModel extends ChangeNotifier {
     if (_article == null) return '';
 
     final date = _article!.publishedAt;
-    final months = ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'];
+    final months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 }

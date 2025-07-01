@@ -13,10 +13,10 @@ const surfaceColor = Color(0xFFF8F7FF); // Very light purple for surfaces
 const textColorPrimary = Color(0xFF2D2B52); // Dark purple for primary text
 
 // Additional semantic colors for specific use cases
-const Color surfaceBackground = Color(0xFFF9F9F9);   // Light grey for backgrounds
-const Color textPrimary = Color(0xFF2D3142);         // Dark grey for primary text
-const Color textSecondary = Color(0xFF757575);       // Medium grey for secondary text
-const Color dividerColor = Color(0xFFE0E0E0);        // Light grey for dividers
+const Color surfaceBackground = Color(0xFFF9F9F9); // Light grey for backgrounds
+const Color textPrimary = Color(0xFF2D3142); // Dark grey for primary text
+const Color textSecondary = Color(0xFF757575); // Medium grey for secondary text
+const Color dividerColor = Color(0xFFE0E0E0); // Light grey for dividers
 
 const FontWeight w900Font = FontWeight.w900;
 const FontWeight w800Font = FontWeight.w800;
@@ -39,11 +39,10 @@ const double margin = 20.0;
 const double maxImageSize = 5242880;
 const double maxProfileSize = 4990000;
 
-const textColorSecondary = Color(0xFF6E6C8F); // Medium purple for secondary text
+const textColorSecondary =
+    Color(0xFF6E6C8F); // Medium purple for secondary text
 const cardColor = Colors.white;
 const accentColor = Color(0xFFEDE9FE); // Very light purple for accents
-
-
 
 final ThemeData appLightTheme = ThemeData(
   brightness: Brightness.light,

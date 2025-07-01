@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+
 import '../../features/news_detail/view/news_detail_screen.dart';
 import '../../features/news_list/model/news_list_model.dart';
 import '../../features/news_list/view/news_list_screen.dart';

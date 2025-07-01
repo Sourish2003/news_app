@@ -71,14 +71,15 @@ class CustomAlertDialog extends StatelessWidget {
       } else {
         onCancelled?.call();
       }
-    } catch(e) {
+    } catch (e) {
       Failure response = e as Failure;
       if (onError != null) {
         onError(response.response.toString());
       } else {
         // Default error handling
         if (context.mounted) {
-          ReusableSnackBar.showErrSnackBar(context, 'Error: ${response.response}');
+          ReusableSnackBar.showErrSnackBar(
+              context, 'Error: ${response.response}');
         }
       }
     }

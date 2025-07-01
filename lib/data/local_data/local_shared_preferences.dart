@@ -31,7 +31,7 @@ class LocalSharePreferences {
       } else {
         return "";
       }
-    } catch(e){
+    } catch (e) {
       //   TODO
     }
   }
@@ -44,7 +44,7 @@ class LocalSharePreferences {
       } else {
         return -1;
       }
-    } catch(e){
+    } catch (e) {
       return -1;
     }
   }
@@ -57,7 +57,7 @@ class LocalSharePreferences {
       } else {
         return false;
       }
-    } catch(e){
+    } catch (e) {
       return false;
     }
   }

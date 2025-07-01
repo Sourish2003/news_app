@@ -27,10 +27,12 @@ class NewsListRepository {
       queryParams['from'] = monthAgo.toIso8601String().split('T')[0];
       queryParams['sortBy'] = 'publishedAt';
 
-      dynamic response = await _apiService.getResponse('/everything', queryParams: queryParams);
+      dynamic response = await _apiService.getResponse('/everything',
+          queryParams: queryParams);
 
       if (response is Success) {
-        NewsModel newsModel = NewsModel.fromJson(response.response as Map<String, dynamic>);
+        NewsModel newsModel =
+            NewsModel.fromJson(response.response as Map<String, dynamic>);
         return Success(code: response.code, response: newsModel);
       }
       return response;

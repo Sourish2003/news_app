@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/config/Theme/themes.dart';
 import 'package:provider/provider.dart';
+
 import '../../../utils/components/loading_overlay.dart';
 import '../../../utils/extensions/context_extension.dart';
 import '../model/news_list_model.dart';
@@ -73,7 +74,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
             ),
             body: RefreshIndicator(
               onRefresh: () => viewModel.refreshNews(),
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
                   horizontal: context.screenWidth * 0.07,
                   vertical: context.screenHeight * 0.02,
@@ -82,6 +83,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Greeting
+                    SizedBox(height: context.screenHeight * 0.03),
                     Text(
                       'Hey, James!',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -89,7 +91,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: context.screenHeight * 0.02),
 
                     // Title
                     Text(
@@ -100,7 +102,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                 height: 1.1,
                               ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: context.screenHeight * 0.04),
 
                     // Search Bar
                     Row(
@@ -152,9 +154,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                     SizedBox(height: context.screenHeight * 0.06),
 
                     // News List
-                    Expanded(
-                      child: _buildNewsList(viewModel),
-                    ),
+                    _buildNewsList(viewModel),
                   ],
                 ),
               ),
@@ -239,6 +239,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
     }
 
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: viewModel.articles.length,
       itemBuilder: (context, index) {
         final article = viewModel.articles[index];
@@ -259,12 +261,13 @@ class _NewsListScreenState extends State<NewsListScreen> {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.only(bottom: context.screenHeight * 0.01),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(16),
               child: article.urlToImage.isNotEmpty
                   ? CachedNetworkImage(
                       imageUrl: article.urlToImage,
@@ -274,16 +277,22 @@ class _NewsListScreenState extends State<NewsListScreen> {
                       errorWidget: (context, url, error) {
                         return Container(
                           width: 100,
-                          height: 80,
-                          color: Colors.grey[300],
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(18),
+                          ),
                           child: const Icon(Icons.image_not_supported),
                         );
                       },
                     )
                   : Container(
                       width: 100,
-                      height: 80,
-                      color: Colors.grey[300],
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(18),
+                      ),
                       child: const Icon(Icons.image),
                     ),
             ),
@@ -303,7 +312,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: context.screenHeight * 0.01),
                   Row(
                     children: [
                       Text(

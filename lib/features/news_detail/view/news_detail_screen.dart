@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 import '../../../utils/extensions/context_extension.dart';
 import '../../../widgets/reusable_snack_bar.dart';
 import '../../news_list/model/news_list_model.dart';
@@ -58,20 +59,25 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => context.pop(),
+              leading: Padding(
+                padding: EdgeInsets.only(left: context.screenWidth * 0.07 - 8),
+                child: IconButton(
+                  icon: const FaIcon(FontAwesomeIcons.arrowLeftLong,
+                      color: Colors.black),
+                  onPressed: () => context.pop(),
+                ),
               ),
             ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: context.screenWidth * 0.05,
+                  horizontal: context.screenWidth * 0.07,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Source and Date
+                    SizedBox(height: context.screenHeight * 0.075),
                     Row(
                       children: [
                         Container(
@@ -123,29 +129,27 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: context.screenHeight * 0.04),
 
                     // Title with highlighted search query
                     _buildHighlightedText(
                       article.title,
                       viewModel.searchQuery,
-                      Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      Theme.of(context).textTheme.headlineLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                height: 1.2,
+                                height: 2,
                               ) ??
                           const TextStyle(),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.screenHeight * 0.0165),
 
                     // Description
-                    Text(
-                      article.description,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[700],
-                        height: 1.5,
-                      ),
-                    ),
+                    Text(article.description,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              // fontSize: 16,
+                              // color: Colors.grey[700],
+                              height: 2,
+                            )),
                     const SizedBox(height: 24),
 
                     // Action Buttons
@@ -157,7 +161,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             GestureDetector(
                               onTap: () async {
                                 final success = await viewModel.openInBrowser();
-                                if (!success && mounted) {
+                                if (!success && context.mounted) {
                                   ReusableSnackBar.showErrSnackBar(
                                     context,
                                     'Could not open article',
@@ -168,36 +172,45 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                                 'Read Story',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 22,
                                 ),
                               ),
                             ),
                             const SizedBox(height: 4),
                             Container(
-                              height: 2,
-                              width: 30,
+                              height: 4,
+                              width: 38,
                               color: Colors.black,
                             ),
                           ],
                         ),
                         Spacer(),
-                        GestureDetector(
-                          onTap: () => viewModel.shareArticle(),
-                          child: const Text(
-                            'Share Now',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                        Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () => viewModel.shareArticle(),
+                              child: const Text(
+                                'Share Now',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
-                          ),
+                            const SizedBox(height: 4),
+                            SizedBox(
+                              height: 4,
+                              width: 38,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: context.screenHeight * 0.06),
 
                     // Image
-                    if (article.urlToImage.isNotEmpty)
+                    if (article.urlToImage.isNotEmpty) ...[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: CachedNetworkImage(
@@ -222,7 +235,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           },
                         ),
                       ),
-                    const SizedBox(height: 24),
+                      SizedBox(height: 24),
+                    ],
 
                     // Content with highlighted search query
                     Text(

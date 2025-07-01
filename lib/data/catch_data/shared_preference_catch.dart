@@ -23,7 +23,7 @@ getStrPrefs({required key}) async {
     } else {
       return "";
     }
-  } catch(e) {
+  } catch (e) {
     //   TODO
   }
 }
@@ -36,7 +36,7 @@ Future<int?> getIntPrefs({required String key}) async {
     } else {
       return -1;
     }
-  } catch(e) {
+  } catch (e) {
     return -1;
   }
 }
@@ -49,7 +49,7 @@ getBoolPrefs({required key}) async {
     } else {
       return false;
     }
-  } catch(e){
+  } catch (e) {
     //   TODO
   }
 }

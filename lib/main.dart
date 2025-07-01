@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // import 'package:flutter_alice/alice.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
       ],
       child: OverlaySupport.global(
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           routerConfig: routerConfig,
           builder: (context, child) => MediaQuery(
             data: MediaQuery.of(context)

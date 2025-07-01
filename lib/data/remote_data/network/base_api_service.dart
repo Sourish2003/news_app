@@ -45,10 +45,10 @@ class NetworkApiService {
     return responseJson;
   }
 
-  Future<Map<String, String>> customApiHeader({String ContentType = ""}) async {
+  Future<Map<String, String>> customApiHeader({String contentType = ""}) async {
     String token = await getAccessToken(); //application/json
-    if (ContentType.isNotEmpty) {
-      return {'Authorization': 'Bearer $token', 'content-type': ContentType};
+    if (contentType.isNotEmpty) {
+      return {'Authorization': 'Bearer $token', 'content-type': contentType};
     } else {
       return {'Authorization': 'Bearer $token'};
     }

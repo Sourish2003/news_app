@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class ReusableBtn1 extends StatelessWidget {
   const ReusableBtn1(
-      {super.key, required this.callBack, required this.btnTitle, this.textStyle, this.buttonStyle});
+      {super.key,
+      required this.callBack,
+      required this.btnTitle,
+      this.textStyle,
+      this.buttonStyle});
 
   final Function callBack;
   final String btnTitle;
@@ -21,9 +25,9 @@ class ReusableBtn1 extends StatelessWidget {
           btnTitle,
           style: textStyle ??
               Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold),
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
     );
