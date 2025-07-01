@@ -47,20 +47,17 @@ class _NewsListScreenState extends State<NewsListScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
-              title: Padding(
-                padding: EdgeInsets.only(left: context.screenWidth * 0.07 - 16),
-                child: Text(
-                  'NEWS',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
+              centerTitle: false,
+              title: Text(
+                'NEWS',
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               actions: [
                 Padding(
-                  padding:
-                      EdgeInsets.only(right: context.screenWidth * 0.07 - 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     _getCurrentDate(),
                     style: Theme.of(context)
@@ -69,7 +66,6 @@ class _NewsListScreenState extends State<NewsListScreen> {
                         ?.copyWith(fontWeight: FontWeight.w900),
                   ),
                 ),
-                const SizedBox(width: 15),
               ],
             ),
             body: RefreshIndicator(
@@ -167,10 +163,10 @@ class _NewsListScreenState extends State<NewsListScreen> {
 
   Widget _buildCategories(NewsListViewModel viewModel) {
     final categories = [
-      {'name': 'Politics', 'icon': FontAwesomeIcons.microphoneLines},
+      {'name': 'Politics', 'icon': Icons.mic},
       {'name': 'Movies', 'icon': Icons.movie_creation_rounded},
       {'name': 'Sports', 'icon': Icons.sports_cricket_rounded},
-      {'name': 'Crime', 'icon': FontAwesomeIcons.gun},
+      {'name': 'Crime', 'icon': Icons.edit},
     ];
 
     return Row(

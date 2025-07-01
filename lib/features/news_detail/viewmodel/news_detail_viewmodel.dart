@@ -22,7 +22,7 @@ class NewsDetailViewModel extends ChangeNotifier {
   Future<void> shareArticle() async {
     if (_article != null) {
       final text = '${_article!.title}\n\nRead more: ${_article!.url}';
-      await SharePlus.instance.share(ShareParams(text: text));
+      await Share.share(text);
     }
   }
 

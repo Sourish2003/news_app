@@ -45,7 +45,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               appBar: AppBar(
                 backgroundColor: Colors.white,
                 leading: IconButton(
-                  icon: const Icon(FontAwesomeIcons.arrowLeftLong,
+                  icon: const FaIcon(FontAwesomeIcons.arrowLeftLong,
                       color: Colors.black),
                   onPressed: () => context.pop(),
                 ),
