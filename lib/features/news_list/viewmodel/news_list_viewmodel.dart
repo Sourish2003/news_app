@@ -100,4 +100,38 @@ class NewsListViewModel extends ChangeNotifier {
       await fetchNews();
     }
   }
+
+  // Calculate reading time based on content
+  String calculateReadingTime(Article article) {
+    const int wordsPerMinute = 200;
+    const int imageReadingTimeSeconds = 12;
+
+    // Count words in title, description, and content
+    String fullText = '${article.title} ${article.description} ${article.content}';
+    int wordCount = fullText.split(RegExp(r'\s+')).where((word) => word.isNotEmpty).length;
+
+    // Check for [+nnnn chars] pattern and add extra time
+    RegExp extraContentPattern = RegExp(r'\[\+(\d+)\s*chars?\]', caseSensitive: false);
+    Match? match = extraContentPattern.firstMatch(article.content);
+    if (match != null) {
+      int extraChars = int.tryParse(match.group(1) ?? '0') ?? 0;
+      // Assuming average 5 characters per word
+      int extraWords = (extraChars / 5).round();
+      wordCount += extraWords;
+    }
+
+    // Calculate reading time in minutes
+    double readingTimeMinutes = wordCount / wordsPerMinute;
+
+    // Add time for image if present
+    if (article.urlToImage.isNotEmpty) {
+      readingTimeMinutes += imageReadingTimeSeconds / 60;
+    }
+
+    // Round to nearest minute, minimum 1 minute
+    int totalMinutes = readingTimeMinutes.round();
+    if (totalMinutes < 1) totalMinutes = 1;
+
+    return '$totalMinutes min Read';
+  }
 }

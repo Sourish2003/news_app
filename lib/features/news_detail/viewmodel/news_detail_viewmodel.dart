@@ -20,23 +20,39 @@ class NewsDetailViewModel extends ChangeNotifier {
   Future<void> shareArticle() async {
     if (_article != null) {
       final text = '${_article!.title}\n\nRead more: ${_article!.url}';
-      await SharePlus.instance.share(ShareParams(text: text));
+      await Share.share(text);
     }
   }
 
-  // Open article in browser
   Future<bool> openInBrowser() async {
-    if (_article != null && _article!.url.isNotEmpty) {
-      final Uri url = Uri.parse(_article!.url);
-      if (await canLaunchUrl(url)) {
+    if (_article == null || _article!.url.isEmpty) {
+      return false;
+    }
+
+    try {
+      String url = _article!.url;
+
+      final Uri uri = Uri.parse(url);
+
+      if (await canLaunchUrl(uri)) {
         await launchUrl(
-          url,
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+        return true;
+      } else {
+        await launchUrl(
+          uri,
           mode: LaunchMode.inAppWebView,
         );
         return true;
       }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error opening URL: $e');
+      }
+      return false;
     }
-    return false;
   }
 
   // Format date

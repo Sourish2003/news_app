@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -41,7 +42,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
           isLoading: viewModel.isLoading,
           loadingText: 'Fetching news...',
           child: Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
@@ -117,7 +118,6 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                 horizontal: 16,
                                 vertical: 12,
                               ),
-                              // Remove suffix icon since we're using external button
                             ),
                             onSubmitted: (value) {
                               viewModel.searchNews(value);
@@ -170,7 +170,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
       {'name': 'Politics', 'icon': FontAwesomeIcons.microphoneLines},
       {'name': 'Movies', 'icon': Icons.movie_creation_rounded},
       {'name': 'Sports', 'icon': Icons.sports_cricket_rounded},
-      {'name': 'Crime', 'icon': Icons.edit},
+      {'name': 'Crime', 'icon': FontAwesomeIcons.gun},
     ];
 
     return Row(
@@ -248,6 +248,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
   }
 
   Widget _buildNewsItem(Article article, String searchQuery) {
+    final viewModel = Provider.of<NewsListViewModel>(context);
     return GestureDetector(
       onTap: () {
         // Navigate to detail screen
@@ -265,12 +266,12 @@ class _NewsListScreenState extends State<NewsListScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: article.urlToImage.isNotEmpty
-                  ? Image.network(
-                      article.urlToImage,
+                  ? CachedNetworkImage(
+                      imageUrl: article.urlToImage,
                       width: 100,
-                      height: 80,
+                      height: 100,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
+                      errorWidget: (context, url, error) {
                         return Container(
                           width: 100,
                           height: 80,
@@ -306,19 +307,27 @@ class _NewsListScreenState extends State<NewsListScreen> {
                   Row(
                     children: [
                       Text(
-                        _formatTimeAgo(article.publishedAt),
+                        viewModel.calculateReadingTime(article),
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w800),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: context.screenWidth * 0.01),
                       Text(
-                        '• ${article.source.name}',
+                        '• ',
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        'Today',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium
+                            ?.copyWith(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -348,20 +357,5 @@ class _NewsListScreenState extends State<NewsListScreen> {
       'December'
     ];
     return '${now.day} ${months[now.month - 1]}, ${now.year}';
-  }
-
-  String _formatTimeAgo(DateTime dateTime) {
-    final now = DateTime.now();
-    final difference = now.difference(dateTime);
-
-    if (difference.inDays > 0) {
-      return '${difference.inDays} days ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} hours ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} mins ago';
-    } else {
-      return 'Just now';
-    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -101,7 +102,6 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             thickness: 2,
                           ),
                         ),
-                        // const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -151,50 +151,44 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     // Action Buttons
                     Row(
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final success = await viewModel.openInBrowser();
-                              if (!success && mounted) {
-                                ReusableSnackBar.showErrSnackBar(
-                                  context,
-                                  'Could not open article',
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                final success = await viewModel.openInBrowser();
+                                if (!success && mounted) {
+                                  ReusableSnackBar.showErrSnackBar(
+                                    context,
+                                    'Could not open article',
+                                  );
+                                }
+                              },
+                              child: const Text(
+                                'Read Story',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                            child: const Text(
-                              'Read Story',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            const SizedBox(height: 4),
+                            Container(
+                              height: 2,
+                              width: 30,
+                              color: Colors.black,
                             ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () => viewModel.shareArticle(),
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: Colors.black),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: const Text(
-                              'Share Now',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () => viewModel.shareArticle(),
+                          child: const Text(
+                            'Share Now',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -206,11 +200,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     if (article.urlToImage.isNotEmpty)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          article.urlToImage,
+                        child: CachedNetworkImage(
+                          imageUrl: article.urlToImage,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
+                          errorWidget: (context, url, error) {
                             return Container(
                               height: 200,
                               decoration: BoxDecoration(
@@ -231,10 +225,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     const SizedBox(height: 24),
 
                     // Content with highlighted search query
-                    _buildHighlightedText(
+                    Text(
                       article.content,
-                      viewModel.searchQuery,
-                      TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[800],
                         height: 1.6,
@@ -266,7 +259,6 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     int lastMatchEnd = 0;
 
     for (final match in matches) {
-      // Add text before match
       if (match.start > lastMatchEnd) {
         spans.add(TextSpan(
           text: text.substring(lastMatchEnd, match.start),
@@ -275,14 +267,16 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
       }
 
       // Add matched text with red underline
-      spans.add(TextSpan(
-        text: text.substring(match.start, match.end),
-        style: style.copyWith(
-          decoration: TextDecoration.underline,
-          decorationColor: Colors.red,
-          decorationThickness: 2,
+      spans.add(
+        TextSpan(
+          text: text.substring(match.start, match.end),
+          style: style.copyWith(
+            decoration: TextDecoration.underline,
+            decorationColor: Colors.red,
+            decorationThickness: 2,
+          ),
         ),
-      ));
+      );
 
       lastMatchEnd = match.end;
     }

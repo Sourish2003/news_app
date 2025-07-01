@@ -25,8 +25,6 @@ class CheckInternetConnection {
       }
     } else {
       return true;
-      // Perform the network request
-      // ...
     }
   }
 }
