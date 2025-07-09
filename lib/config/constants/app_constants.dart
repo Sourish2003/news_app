@@ -30,17 +30,4 @@ double toastFontSize = 16;
 
 //shared_preferences keys
 String themeKey = "CURRENT_THEME";
-String user_id = "USERID";
 String access_token = "ACCESS_TOKEN";
-String user_mob = "USER_mob";
-String first_name = "FIRST_NAME";
-String last_name = "LAST_NAME";
-String is_user_log_in = "IS_USER_LOGIN";
-String roomName = "appointment";
-String commanErrMsg = "Something went wrong..";
-
-String fcmTokenKey = "fcmToken";
-String instanceIdKey = "instanceId";
-String notificationChannel = "ffDoctorChannel";
-
-String appId = "";
