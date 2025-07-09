@@ -1,3 +1,5 @@
+import 'package:news_app/config/constants/api_constants.dart';
+
 import '../../../data/remote_data/network/base_api_service.dart';
 import '../../../utils/api_helpers/api_status.dart';
 import '../model/news_list_model.dart';
@@ -27,7 +29,7 @@ class NewsListRepository {
       queryParams['from'] = monthAgo.toIso8601String().split('T')[0];
       queryParams['sortBy'] = 'publishedAt';
 
-      dynamic response = await _apiService.getResponse('/everything',
+      dynamic response = await _apiService.getResponse(ApiConstants.everything,
           queryParams: queryParams);
 
       if (response is Success) {
